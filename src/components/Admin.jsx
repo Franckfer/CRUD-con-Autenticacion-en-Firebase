@@ -11,10 +11,8 @@ const Admin = () => {
 
     useEffect(() => {
         if(auth.currentUser) {
-            console.log("existe el usuario");
             setUser(auth.currentUser)
         } else {
-            console.log("el usuario no existe");
             navigate("/login")
         }
     }, [])
@@ -22,6 +20,7 @@ const Admin = () => {
     return (
         <div>
             <h2>Admin</h2>
+            <hr />
             <hr />
             {
                 user && (

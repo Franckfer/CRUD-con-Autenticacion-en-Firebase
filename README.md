@@ -1,10 +1,15 @@
+## Crud de tareas con autenticación
+
+Proyecto en React basado en un CRUD de notas/tareas, con autenticación en el formulario de login y register utilizando Firebase, poniendo en práctica  las distintas herramientas que trae React.
+
+ver pagina en este [link](https://crud-react-fc9ea.web.app/)
+
+## Vista previa
+
+![prev img1](https://github.com/Franckfer/CRUD-con-Autenticacion-en-Firebase/blob/master/public/img/login.png)
+
+![prev img2](https://github.com/Franckfer/CRUD-con-Autenticacion-en-Firebase/blob/master/public/img/crud-tareas.png)
 # Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
 
 ### `npm start`
 
