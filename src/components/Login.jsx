@@ -49,6 +49,11 @@ const Login = () => {
                 email: res.user.email,
                 uid: res.user.uid
             })
+            await db.collection(res.user.uid).add({
+                name:'ejemplo',
+                fecha:Date.now()
+            })
+
             console.log(res);
             setEmail('')
             setPass('')

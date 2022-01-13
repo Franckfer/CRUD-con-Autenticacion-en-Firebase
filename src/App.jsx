@@ -9,13 +9,8 @@ import { Spinner } from 'reactstrap'
 
 
 
-
 function App() {
 
-  //estado firebaseUser inicializado en (false)
-  //manejador del estado [0] setFirebaseUser si existe un usuario el valor
-  //del state firebaseUser contendra el valor del usuario
-  //sino firebaseUser sera (null)
   const [firebaseUser, setFirebaseUser] = useState(false)
 
   useEffect(() => {

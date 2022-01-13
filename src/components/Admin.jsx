@@ -1,6 +1,7 @@
 import { auth } from '../firebase/firebaseConfig'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import Crud from './Crud'
 
 
 const Admin = () => {
@@ -24,7 +25,7 @@ const Admin = () => {
             <hr />
             {
                 user && (
-                    <h4>Bienvenido : {user.email}</h4>
+                    <Crud user={user} />
                 )
             }
         </div>
