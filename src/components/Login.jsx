@@ -152,6 +152,17 @@ const Login = () => {
                                 isRegister ? "Ya tengo una Cuenta" : "Crear Cuenta"
                             }
                         </button>
+                        {
+                            !isRegister ? (
+                                <button 
+                                    className="btn btn-lg btn-danger btn-block btn-sm mt-2"
+                                    type='button'
+                                    onClick={() => navigate('/reset')}
+                                >
+                                    Recuperar contraseña
+                                </button>
+                            ) : null
+                        }
                     </form>
                 </div>
             </div>

@@ -1,24 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {db} from '../firebase/firebaseConfig'
+import moment from 'moment'
+import 'moment/locale/es'
 
 const Crud = ({user}) => {
 
-  const [addTareas, setAddTareas] = React.useState([])
-  const [tarea, setTarea] = React.useState('')
-  const [modoEdicion, setModoEdicion] = React.useState(false)
-  const [id, setId] = React.useState('')
+  const [addTareas, setAddTareas] = useState([])
+  const [tarea, setTarea] = useState('')
+  const [modoEdicion, setModoEdicion] = useState(false)
+  const [id, setId] = useState('')
+  const [ultimaTarea, setUltimaTarea] = useState(null)
+  const [desactivar, setDesactivar] = useState(false)
 
 
-  React.useEffect(() => {
+  useEffect(() => {
 
     const obtenerDatos = async () => {
 
       try {
+        setDesactivar(true)
 
-        const data = await db.collection(user.uid).get()
+        const data = await db.collection(user.uid)
+          .limit(5)
+          .orderBy('fecha')
+          .get()
+
         const arrayData = data.docs.map(doc => ({ id: doc.id, ...doc.data() }))
         console.log(arrayData)
         setAddTareas(arrayData)
+
+        setUltimaTarea(data.docs[data.docs.length - 1])
+
+        const query = await db.collection(user.uid)
+          .limit(5)
+          .orderBy('fecha')
+          .startAfter(data.docs[data.docs.length - 1])
+          .get()
+        if(query.empty) {
+          console.log("no hay mas documentos");
+          setDesactivar(true)
+        } else {
+          setDesactivar(false)
+        }
         
       } catch (error) {
         console.log(error)
@@ -102,6 +125,42 @@ const Crud = ({user}) => {
     }
   }
 
+  /* paginacion */
+  const siguientePag = async() => {
+    setDesactivar(true)
+    try {
+      const data = await db.collection(user.uid)
+          .limit(5)
+          .orderBy('fecha')
+          .startAfter(ultimaTarea)
+          .get()
+
+      const arrayData = data.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+      setAddTareas([
+        ...addTareas,
+        ...arrayData
+      ])
+       
+      setUltimaTarea(data.docs[data.docs.length - 1])
+
+      const query = await db.collection(user.uid)
+          .limit(5)
+          .orderBy('fecha')
+          .startAfter(data.docs[data.docs.length - 1])
+          .get()
+        if(query.empty) {
+          console.log("no hay mas documentos");
+          setDesactivar(true)
+        } else {
+          setDesactivar(false)
+        }
+
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+
   return (
     <div className="container mt-3">
       <div className="row">
@@ -114,7 +173,7 @@ const Crud = ({user}) => {
               ) : (
               addTareas.map(item => (
                   <li className="list-group-item" key={item.id}>
-                    {item.name}
+                    {item.name} - {moment(item.fecha).format('LLL')}
                     <button 
                       className="btn btn-danger btn-sm float-right"
                       onClick={() => eliminar(item.id)}
@@ -132,6 +191,15 @@ const Crud = ({user}) => {
               )
             }
           </ul>
+
+          <button 
+            className="btn btn-info btn-block mt-2 btn-sm"
+            onClick={() => siguientePag()}
+            disabled={desactivar}
+          >
+            Siguiente...
+          </button>
+
         </div>
         <div className="col-md-6">
           <h3>

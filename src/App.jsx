@@ -6,6 +6,7 @@ import Login from './components/Login';
 import Navbar from './components/Navbar';
 import { auth } from './firebase/firebaseConfig'
 import { Spinner } from 'reactstrap'
+import Reset from './components/Reset';
 
 
 
@@ -35,6 +36,7 @@ function App() {
           <Route path="/" element={ <Inicio /> } />
           <Route path="/login" element={ <Login /> } />
           <Route path="/admin" element={ <Admin /> } />
+          <Route path="/reset" element={ <Reset /> } />
           <Route path="*" element={ <h2>Ruta no encontrada</h2> } />
           
         </Routes>
